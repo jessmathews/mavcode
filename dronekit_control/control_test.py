@@ -2,19 +2,22 @@ from dronekit import connect, VehicleMode
 import time
 
 # Connect to the vehicle
-connection_string = "127.0.0.1:14550"  # Change this based on your setup
-vehicle = connect(connection_string, wait_ready=True)
+
+print("Connecting to the vehicle...")
+print("This may take some time sometimes....")
+connection_string = "/dev/ttyAMC0"  # for usb
+vehicle = connect(connection_string, wait_ready=True,baud=57600)
 
 def arm_drone():
     """
-    Arms the drone without taking off.
+    Testing arming of drone
     """
-    print("Setting mode to GUIDED...")
-    vehicle.mode = VehicleMode("GUIDED")
+    print("Setting mode to STABILIZE...")
+    vehicle.mode = VehicleMode("STABILIZE")
 
     # Wait for the mode change
-    while not vehicle.mode.name == "GUIDED":
-        print("Waiting for GUIDED mode...")
+    while not vehicle.mode.name == "STABILIZE":
+        print("Waiting for STABILIZE mode...")
         time.sleep(1)
 
     print("Arming motors...")
