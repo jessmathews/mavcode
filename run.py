@@ -58,7 +58,7 @@ try:
 except Exception as e:
     pass
 
-if _name_ == '_main_':
+if __name__ == '__main__':
       multiproc.freeze_support()
 
 #The MAVLink version being used (None, "1.0", "2.0")
@@ -67,7 +67,7 @@ mpstate = None
 
 class MPStatus(object):
     '''hold status information about the mavproxy'''
-    def _init_(self):
+    def __init__(self):
         self.gps	 = None
         self.msgs = {}
         self.msg_count = {}
@@ -101,7 +101,7 @@ class MPStatus(object):
         self.last_bytecounter_calc = 0
 
     class ByteCounter(object):
-        def _init_(self):
+        def __init__(self):
             self.total_count = 0
             self.current_count = 0
             self.buckets = []
@@ -205,7 +205,7 @@ def add_input(cmd, immediate=False):
 
 class MAVFunctions(object):
     '''core functions available in modules'''
-    def _init_(self):
+    def __init__(self):
         self.process_stdin = add_input
         self.param_set = param_set
         self.get_mav_param = get_mav_param
@@ -215,7 +215,7 @@ class MAVFunctions(object):
 
 class MPState(object):
     '''holds state of mavproxy'''
-    def _init_(self):
+    def __init__(self):
         self.console = textconsole.SimpleConsole()
         self.map = None
         self.map_functions = {}
@@ -1261,7 +1261,7 @@ def run_startup_scripts():
         else:
             print("no script %s" % start_script)
 
-if _name_ == '_main_':
+if __name__ == '__main__':
     from optparse import OptionParser
     parser = OptionParser("mavproxy.py [options]")
 
