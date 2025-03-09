@@ -678,10 +678,10 @@ def import_package(name):
     and returns the desired module."""
     import zipimport
     try:
-        mod = _import_(name)
+        mod = __import__(name)
     except ImportError:
         clear_zipimport_cache()
-        mod = _import_(name)
+        mod = __import__(name)
 
     components = name.split('.')
     for comp in components[1:]:
