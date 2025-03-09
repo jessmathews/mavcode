@@ -12,12 +12,12 @@ def arm_drone():
     """
     Testing arming of drone
     """
-    print("Setting mode to STABILIZE...")
-    vehicle.mode = VehicleMode("STABILIZE")
+    print("Setting mode to GUIDED...")
+    vehicle.mode = VehicleMode("GUIDED")
 
     # Wait for the mode change
-    while not vehicle.mode.name == "STABILIZE":
-        print("Waiting for STABILIZE mode...")
+    while not vehicle.mode.name == "GUIDED":
+        print("Waiting for GUIDED mode...")
         time.sleep(1)
 
     print("Arming motors...")
