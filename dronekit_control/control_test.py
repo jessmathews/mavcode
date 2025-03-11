@@ -5,7 +5,7 @@ import time
 
 print("Connecting to the vehicle...")
 print("This may take some time sometimes....")
-connection_string = "/dev/ttyAMC0"  # for usb
+connection_string = "/dev/ttyACM0"  # for usb
 vehicle = connect(connection_string, wait_ready=True,baud=57600)
 
 def arm_drone():

@@ -5,10 +5,10 @@ import time
 
 print("Connecting to the vehicle...")
 print("This may take some time sometimes....")
-connection_string = "/dev/ttyAMC0"  # for usb
+connection_string = "/dev/ttyACM0"  # for usb
 vehicle = connect(connection_string, wait_ready=True,baud=57600)
 
-targAlt = int(input("Enter your target altitude(in m):"))
+targAlt = int(input("Enter the target altitude(in m):"))
 def arm_and_takeoff(targetAltitude):
     print("Basic pre-arm checks")
     while not vehicle.is_armable:
@@ -37,7 +37,7 @@ def arm_and_takeoff(targetAltitude):
         time.sleep(1)
 
 # takeoff to 5 meters
-arm_and_takeoff(5)
+arm_and_takeoff(targAlt)
 
 print("Take off complete")
 
