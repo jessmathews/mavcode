@@ -77,25 +77,36 @@ def return_to_launch():
 if __name__ == "__main__":
     try:
         print("Requesting Mission Parameters...")
-        string = input("Enter latitude,longitude,altitude")
+        string = input("Enter latitude,longitude,altitude:")
         string = string.split(",")
         latit = string[0].strip()
         longit = string[1].strip()
         altit = string[2].strip()
-        arm_and_takeoff(10)  # Take off to 10 meters
-        navigate_to_gps(latit,longit, altit) 
+        
+        arm_and_takeoff(altit)
+        
+        navigate_to_gps(latit,longit, altit)
+        
         qr_data = scan_qr_code()
         print(qr_data)
+        
         prompt= input("Drop payload?[y/n]:")
         if prompt.lower() == 'y':
             drop_payload()
         else:
             print("Delivery cancelled!")
 
-        return_to_launch()
+        """return_to_launch()"""
+        print("Landing...")
+        vehicle.mode = VehicleMode("LAND")
 
     except Exception as e:
-        print(f"Error: {e}")
+        if e==KeyboardInterrupt:
+            c = input("RTL?[y/n]:")
+            if c.lower() == 'y':
+                vehicle.mode = VehicleMode("RTL")
+        else:
+            print(f"Error:{e}")
 
     finally:
         print("Closing vehicle connection...")
