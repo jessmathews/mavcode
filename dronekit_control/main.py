@@ -24,7 +24,6 @@ def arm_and_takeoff(target_altitude):
 
     print("Taking off...")
     vehicle.simple_takeoff(target_altitude)
-
     while True:
         print(f"Altitude: {vehicle.location.global_relative_frame.alt}")
         if vehicle.location.global_relative_frame.alt >= target_altitude * 0.95:
@@ -46,7 +45,7 @@ def navigate_to_gps(target_lat, target_lon, target_alt):
         if abs(current_location.lat - target_lat) < 0.0001 and abs(current_location.lon - target_lon) < 0.0001:
             print("Reached target location!")
             break
-        time.sleep(2)
+        time.sleep(3)
 
 def scan_qr_code():
     """
@@ -62,26 +61,33 @@ def drop_payload():
     """
     Activates the payload release mechanism.
     """
-    print("Dropping payload...")
     # Payload release mechanism
+    print("Landing for payload drop")
+    vehicle.mode = VehicleMode("LAND")
     time.sleep(1)
     print("Payload dropped!")
 
-def return_to_launch():
+def return_to_launch(arm_location,alt):
     """
     Returns the drone to the launch position.
     """
-    print("Returning to launch...")
-    vehicle.mode = VehicleMode("RTL")
+    print("Returning to the armed location...")
+    navigate_to_gps(arm_location.lat,arm_location.lon,alt)
+    vehicle.mode = VehicleMode("LAND")
 
 if __name__ == "__main__":
     try:
         print("Requesting Mission Parameters...")
         string = input("Enter latitude,longitude,altitude:")
         string = string.split(",")
-        latit = string[0].strip()
-        longit = string[1].strip()
-        altit = string[2].strip()
+        latit = float(string[0].strip())
+        longit = float(string[1].strip())
+        altit = float(string[2].strip())
+        print(f"latitude:{latit} longitude:{longit} altitude:{altit}")
+        arm_location = vehicle.location.global_relative_frame
+        print(f"Arming at {arm_location.lat},{arm_location.lon}")
+
+        c=input("confirm?")
         
         arm_and_takeoff(altit)
         
@@ -91,14 +97,14 @@ if __name__ == "__main__":
         print(qr_data)
         
         prompt= input("Drop payload?[y/n]:")
-        if prompt.lower() == 'y':
+        if prompt.strip().lower() == 'y':
             drop_payload()
         else:
             print("Delivery cancelled!")
 
-        """return_to_launch()"""
-        print("Landing...")
-        vehicle.mode = VehicleMode("LAND")
+        return_to_launch(arm_location,5)
+        #print("Landing...")
+        #vehicle.mode = VehicleMode("LAND")
 
     except Exception as e:
         if e==KeyboardInterrupt:
@@ -111,3 +117,4 @@ if __name__ == "__main__":
     finally:
         print("Closing vehicle connection...")
         vehicle.close()
+        print("Byeee...")
