@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 from time import sleep
 
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(5, GPIO.OUT)
+GPIO.setup(3, GPIO.OUT)
 servo=GPIO.PWM(3, 50)
 servo.start(0)
 
@@ -10,11 +10,23 @@ servo.start(0)
 def SetAngle(angle):
     duty = angle / 18 + 2
     GPIO.output(3, True)
-    pwm.ChangeDutyCycle(duty)
+    servo.ChangeDutyCycle(duty)
     sleep(1)
     GPIO.output(3, False)
-    pwm.ChangeDutyCycle(0)
+    servo.ChangeDutyCycle(0)
     
-SetAngle(90) 
+#SetAngle(200)
+#sleep(5)
+#SetAngle(0)
+
+def close():
+    SetAngle(200)
+def open_box():
+    SetAngle(0)
+"""
+open_box()
+sleep(3)
+close()
+"""
 servo.stop()
-GPIO.cleanup()
+#GPIO.cleanup()

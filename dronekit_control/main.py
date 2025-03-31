@@ -1,5 +1,5 @@
 from dronekit import connect, VehicleMode, LocationGlobalRelative
-import time
+from time import sleep
 
 # Connect to the vehicle
 
@@ -20,7 +20,7 @@ def arm_and_takeoff(target_altitude):
 
     while not vehicle.armed:
         print("Waiting for arming...")
-        time.sleep(1)
+        sleep(1)
 
     print("Taking off...")
     vehicle.simple_takeoff(target_altitude)
@@ -29,7 +29,7 @@ def arm_and_takeoff(target_altitude):
         if vehicle.location.global_relative_frame.alt >= target_altitude * 0.95:
             print("Target altitude reached!")
             break
-        time.sleep(1)
+        sleep(1)
 
 def navigate_to_gps(target_lat, target_lon, target_alt):
     """
@@ -45,7 +45,7 @@ def navigate_to_gps(target_lat, target_lon, target_alt):
         if abs(current_location.lat - target_lat) < 0.0001 and abs(current_location.lon - target_lon) < 0.0001:
             print("Reached target location!")
             break
-        time.sleep(3)
+        sleep(3)
 
 def scan_qr_code():
     """
@@ -64,12 +64,16 @@ def drop_payload():
     # Payload release mechanism
     print("Landing for payload drop")
     vehicle.mode = VehicleMode("LAND")
-    time.sleep(1)
+    
+    from servo_control import open_box,close
+    print("Opening payload box")
+    open_box()
+    
     print("Payload dropped!")
 
 def return_to_launch(arm_location,alt):
     """
-    Returns the drone to the launch position.
+    Returns the drone to the arm position.
     """
     print("Returning to the armed location...")
     navigate_to_gps(arm_location.lat,arm_location.lon,alt)
@@ -101,7 +105,8 @@ if __name__ == "__main__":
             drop_payload()
         else:
             print("Delivery cancelled!")
-
+        print(f"Returning to launch position at {arm_location.lat}, {arm_location.lon} at 5m altitude)
+        input("confirm?)
         return_to_launch(arm_location,5)
         #print("Landing...")
         #vehicle.mode = VehicleMode("LAND")
