@@ -105,8 +105,8 @@ if __name__ == "__main__":
             drop_payload()
         else:
             print("Delivery cancelled!")
-        print(f"Returning to launch position at {arm_location.lat}, {arm_location.lon} at 5m altitude)
-        input("confirm?)
+        print(f"Returning to launch position at {arm_location.lat}, {arm_location.lon} at 5m altitude")
+        input("confirm?")
         return_to_launch(arm_location,5)
         #print("Landing...")
         #vehicle.mode = VehicleMode("LAND")
