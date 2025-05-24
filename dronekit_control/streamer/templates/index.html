@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live Feed</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        function updateData() {
+            fetch('/update_data')
+                .then(response => response.json())
+                .then(data => {
+                    // Update images (cache-busting)
+                    document.getElementById('image1').src = data.image1;
+                });
+        }
+        setInterval(updateData, 500); // Auto-refresh every 1 second
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>AEROCET</h1>
+        <h2>VIDEO FEED</h2>
+
+        <div class="image-container">
+            <div class="image-box">
+                <h3>Camera View</h3>
+                <img id="image1" src="{{ url_for('static', filename='output.jpg') }}" alt=" View">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
