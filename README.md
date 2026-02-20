@@ -1,4 +1,4 @@
-### Autonomous Quadcopter missions using Dronekit
+# Autonomous Quadcopter missions using Dronekit
 # NOTE: This repo was deprecated in favour of a more reliable and hardware tested ROS2 implementation. Check it out here: https://github.com/jessmathews/ros2_autonomous_drone
 ## This Repo Contains:
 - Testing Scripts for Dronekit (takeoff, hover, servo_control)
